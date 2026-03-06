@@ -1,0 +1,438 @@
+\documentclass[12pt, a4paper]{article}
+
+% Essential Math Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{geometry}
+
+% Page Setup and Margins
+\geometry{a4paper, margin=1in}
+
+% Header and Footer Configuration
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{From Calculus to Cohomology}
+\chead{Homework Set \# 1}
+\rhead{Name:Zijian Zhu}
+\lfoot{Instructor: Yuan Gao}
+\rfoot{Nanjing University}
+\cfoot{\thepage}
+
+% Theorem and Problem Environments
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+
+% Custom Solution Environment (uses a black square for the QED symbol)
+\newenvironment{solution}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[Solution]}
+  {\end{proof}}
+
+% Custom math operators
+\DeclareMathOperator{\curl}{curl}
+\DeclareMathOperator{\divg}{div}
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\sgn}{sgn}
+
+\begin{document}
+
+% Academic Integrity / Collaboration Declaration
+\noindent \textbf{Collaborators:} \textit{None}
+\vspace{0.8cm}
+
+% --- Begin Homework Problems ---
+
+\begin{problem}
+Let $I = (0, 1) \cup (2, 3)$ be a disconnected open subset of $\mathbb{R}$. 
+\begin{enumerate}
+    \item[(a)] Find a smooth function $f: I \to \mathbb{R}$ such that $f'(x) = 0$ everywhere on $I$, but $f(0.5) \neq f(2.5)$.
+    \item[(b)] Based on your answer and the definition of the 0-th cohomology group $H^0(I)$, what is the dimension of $H^0(I)$ as a real vector space? Briefly explain the topological meaning of this dimension.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+\item[(a)]: \[f(x) = 
+\begin{cases}
+1, & 0 < x < 1 \\
+2, & 2 < x < 3 
+\end{cases}
+\] 
+\item[(b)]: The 0-th cohomology group $H^0(I)$ is the set of all functions $f: I \to \mathbb{R}$ such that $f'(x) = 0$ everywhere on $I$. The dimension of $H^0(I)$ is 2. The topological meaning of this dimension is that $H^0(I)$ is a topological space which is isomorphic to $\mathbb{R}^2$.
+
+\end{solution}
+
+\vfill
+
+\begin{problem}
+Determine whether the vector field $F(x,y) = \left(y \cos(xy), x \cos(xy) + 2y\right)$ on $\mathbb{R}^2$ satisfies the necessary integrability condition $\frac{\partial Q}{\partial x} = \frac{\partial P}{\partial y}$. Does this vector field admit a global potential function? Why or why not?
+\end{problem}
+
+\begin{solution}
+\[
+\frac{\partial P}{\partial y} = \cos(xy) + y \cdot \bigl(-\sin(xy) \cdot x\bigr) = \cos(xy) - xy \sin(xy),
+\]
+\[
+\frac{\partial Q}{\partial x} = \cos(xy) + x \cdot \bigl(-\sin(xy) \cdot y\bigr) = \cos(xy) - xy \sin(xy).
+\]
+Thus \(\displaystyle \frac{\partial Q}{\partial x} = \frac{\partial P}{\partial y}\) everywhere on \(\mathbb{R}^2\), so the necessary integrability condition holds.
+
+Since \(\mathbb{R}^2\) is simply connected, this condition is also sufficient for the existence of a global potential function. Therefore, \(F\) admits a global potential.
+Let \(f(x,y)\) satisfy \(\nabla f = F\). From \(f_x = y \cos(xy)\), integrate with respect to \(x\):
+\[
+f(x,y) = \int y \cos(xy)\, dx = \sin(xy) + g(y).
+\]
+Then \(f_y = x \cos(xy) + g'(y)\) must equal \(x \cos(xy) + 2y\), so \(g'(y) = 2y\) and \(g(y) = y^2 + C\). Hence
+\[
+f(x,y) = \sin(xy) + y^2 + C
+\]
+is a global potential function.
+\end{solution}
+
+\vfill
+\newpage
+
+\begin{problem}
+Consider the vector field $F(x,y) = (3x^2y, x^3)$. Because $\mathbb{R}^2$ is a star-shaped domain with respect to the origin $(0,0)$, a global potential function $f(x,y)$ is guaranteed to exist.
+\begin{enumerate}
+    \item[(a)] Use the explicit integral formula presented in the lecture: 
+    $$f(x,y) = \int_0^1 \left( P(tx,ty)x + Q(tx,ty)y \right) dt$$
+    to construct the potential $f(x,y)$.
+    \item[(b)] Compute the gradient of your resulting function to verify directly that $\nabla f = F$.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+\item[(a)] For the given vector field, we have \( P(x,y)=3x^2y \) and \( Q(x,y)=x^3 \). 
+\[
+P(tx, ty) = 3(tx)^2(ty) = 3t^3 x^2 y, \qquad
+Q(tx, ty) = (tx)^3 = t^3 x^3.
+\]
+Then
+\[
+P(tx, ty)\,x + Q(tx, ty)\,y = (3t^3 x^2 y)x + (t^3 x^3)y = 3t^3 x^3 y + t^3 x^3 y = 4t^3 x^3 y.
+\]
+Integrate with respect to \( t \) from \( 0 \) to \( 1 \):
+\[
+f(x,y) = \int_0^1 4t^3 x^3 y \, dt = 4x^3 y \int_0^1 t^3\, dt = 4x^3 y \cdot \frac{1}{4} = x^3 y.
+\]
+Thus a global potential function is \( f(x,y) = x^3 y \) (plus an arbitrary constant).
+
+\item[(b)] Compute the partial derivatives:
+\[
+\frac{\partial f}{\partial x} = 3x^2 y, \qquad
+\frac{\partial f}{\partial y} = x^3.
+\]
+Hence \( \nabla f = (3x^2 y,\; x^3) = F(x,y) \), confirming that \( f \) is indeed a potential for \( F \).
+\end{solution}
+
+\vfill
+
+\begin{problem}
+Recall the angle form $F(x,y) = \left(\frac{-y}{x^2+y^2}, \frac{x}{x^2+y^2}\right)$ defined on the punctured plane $U = \mathbb{R}^2 \setminus \{(0,0)\}$. In lecture, we showed its integral over the unit circle is $2\pi$. Let $\gamma$ be the boundary of the square with vertices $(1,1), (-1,1), (-1,-1), (1,-1)$, oriented counter-clockwise. Show that $\oint_\gamma F \cdot d\mathbf{r} = 2\pi$. 
+
+\textit{Hint: You do not need to parameterize the square. Apply Green's Theorem to the annular region bounded between the square and the unit circle.}
+\end{problem}
+
+\begin{solution}
+Let \( \gamma \) be the given square oriented counter‑clockwise, and let \( C \) be the unit circle centered at the origin, also oriented counter‑clockwise. A direct computation shows that
+\[
+\frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} = 0 \quad \text{on } \Omega,
+\]
+because the form is closed away from the origin.
+
+The Green’s theorem then gives
+\[
+\oint_{\gamma} F \cdot dr + \oint_{-C} F \cdot dr = \iint_{\Omega} \left( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \right) dA = 0.
+\]
+
+The integral over the clockwise circle is the negative of the integral over the counter‑clockwise circle:
+\[
+\oint_{-C} F \cdot dr = -\oint_{C} F \cdot dr.
+\]
+We know from the lecture that \( \displaystyle \oint_{C} F \cdot dr = 2\pi \). Then,
+\[
+\oint_{\gamma} F \cdot dr - 2\pi = 0,
+\]
+so
+\[
+\oint_{\gamma} F \cdot dr = 2\pi.
+\]
+
+Thus the line integral around the square equals \( 2\pi \), as required.
+\end{solution}
+
+\vfill
+
+
+\begin{problem}
+Let $f(x,y,z) = x^2 y \sin(z)$ be a smooth scalar function on $\mathbb{R}^3$.
+\begin{enumerate}
+    \item[(a)] Compute the gradient vector field $F = \grad(f)$.
+    \item[(b)] Compute the curl of $F$, $\curl(F)$, and explicitly verify the lemma from class that $\curl(\grad(f)) = \mathbf{0}$.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+\item[(a)] The gradient of \( f \) is given by
+\[
+F = \nabla f = \left( \frac{\partial f}{\partial x},\; \frac{\partial f}{\partial y},\; \frac{\partial f}{\partial z} \right).
+\]
+Compute each partial derivative:
+\[
+\frac{\partial f}{\partial x} = 2xy \sin(z), \qquad
+\frac{\partial f}{\partial y} = x^2 \sin(z), \qquad
+\frac{\partial f}{\partial z} = x^2 y \cos(z).
+\]
+Hence
+\[
+F(x,y,z) = \bigl( 2xy \sin(z),\; x^2 \sin(z),\; x^2 y \cos(z) \bigr).
+\]
+
+\item[(b)] The curl of \( F \) is
+\[
+\operatorname{curl}(F) = \nabla \times F = 
+\begin{vmatrix}
+\mathbf{i} & \mathbf{j} & \mathbf{k} \\
+\frac{\partial}{\partial x} & \frac{\partial}{\partial y} & \frac{\partial}{\partial z} \\
+2xy \sin(z) & x^2 \sin(z) & x^2 y \cos(z)
+\end{vmatrix}.
+\]
+Expanding the determinant:
+\[
+\begin{aligned}
+\operatorname{curl}(F) &= \mathbf{i} \left( \frac{\partial}{\partial y}(x^2 y \cos(z)) - \frac{\partial}{\partial z}(x^2 \sin(z)) \right) \\
+&\quad - \mathbf{j} \left( \frac{\partial}{\partial x}(x^2 y \cos(z)) - \frac{\partial}{\partial z}(2xy \sin(z)) \right) \\
+&\quad + \mathbf{k} \left( \frac{\partial}{\partial x}(x^2 \sin(z)) - \frac{\partial}{\partial y}(2xy \sin(z)) \right).
+\end{aligned}
+\]
+Now compute each component:
+\[
+\begin{aligned}
+\frac{\partial}{\partial y}(x^2 y \cos(z)) &= x^2 \cos(z), \\
+\frac{\partial}{\partial z}(x^2 \sin(z)) &= x^2 \cos(z) \quad \Rightarrow \quad \text{first component} = x^2 \cos(z) - x^2 \cos(z) = 0. \\[4pt]
+\frac{\partial}{\partial x}(x^2 y \cos(z)) &= 2xy \cos(z), \\
+\frac{\partial}{\partial z}(2xy \sin(z)) &= 2xy \cos(z) \quad \Rightarrow \quad \text{second component} = -(2xy \cos(z) - 2xy \cos(z)) = 0. \\[4pt]
+\frac{\partial}{\partial x}(x^2 \sin(z)) &= 2x \sin(z), \\
+\frac{\partial}{\partial y}(2xy \sin(z)) &= 2x \sin(z) \quad \Rightarrow \quad \text{third component} = 2x \sin(z) - 2x \sin(z) = 0.
+\end{aligned}
+\]
+Thus \(\operatorname{curl}(F) = (0,0,0)\), confirming that \(\operatorname{curl}(\operatorname{grad}(f)) = 0\) for this function.
+\end{solution}
+
+\vfill
+
+\begin{problem}
+Let $V = \mathbb{R}^3$ with the standard dual basis $dx, dy, dz$. Expand and simplify the following wedge product using the properties of bi-linearity, associativity, and graded commutativity:
+$$(dx - 2dy) \wedge (dy + 3dz) \wedge (dz - dx)$$
+\end{problem}
+
+\begin{solution}
+    Set \(A = dx - 2dy\), \(B = dy + 3dz\), \(C = dz - dx\). First compute \(A \wedge B\):
+    \[
+    \begin{aligned}
+    A \wedge B &= (dx - 2dy) \wedge (dy + 3dz) \\
+    &= dx \wedge dy + 3\,dx \wedge dz - 2dy \wedge dy - 6\,dy \wedge dz \\
+    &= dx \wedge dy + 3\,dx \wedge dz - 6\,dy \wedge dz \quad (\text{since } dy\wedge dy = 0).
+    \end{aligned}
+    \]
+    Now wedge with \(C\):
+    \[
+    \begin{aligned}
+    (A \wedge B) \wedge C &= (dx \wedge dy + 3\,dx \wedge dz - 6\,dy \wedge dz) \wedge (dz - dx) \\
+    &= (dx \wedge dy) \wedge dz - (dx \wedge dy) \wedge dx \\
+    &\quad + 3(dx \wedge dz) \wedge dz - 3(dx \wedge dz) \wedge dx \\
+    &\quad -6(dy \wedge dz) \wedge dz + 6(dy \wedge dz) \wedge dx.
+    \end{aligned}
+    \]
+    \[
+(dx \wedge dy) \wedge dx = 0,\quad (dx \wedge dz) \wedge dz = 0,\quad (dx \wedge dz) \wedge dx = 0,\quad (dy \wedge dz) \wedge dz = 0.
+\]
+We obtain
+\[
+(A \wedge B) \wedge C = dx \wedge dy \wedge dz + 6\,dx \wedge dy \wedge dz = 7\,dx \wedge dy \wedge dz.
+\]
+\end{solution}
+
+\vfill
+\newpage
+
+\begin{problem}
+Let $V = \mathbb{R}^3$ and consider the 1-covectors $\alpha_1 = 2dx + dy$ and $\alpha_2 = dx - dz$. 
+\begin{enumerate}
+    \item[(a)] Compute their wedge product $\alpha_1 \wedge \alpha_2$ algebraically.
+    \item[(b)] Explicitly evaluate the resulting 2-covector on the pair of vectors $v_1 = (1, 0, 1)$ and $v_2 = (0, 1, 0)$. 
+    \item[(c)] Verify that your answer from (b) matches the determinant of the $2 \times 2$ pairing matrix $[\alpha_i(v_j)]$.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+    \item[(a)] Using bilinearity and anticommutativity:
+    \[
+    \begin{aligned}
+    \alpha_1 \wedge \alpha_2 &= (2dx + dy) \wedge (dx - dz) \\
+    &= 2dx \wedge dx - 2dx \wedge dz + dy \wedge dx - dy \wedge dz \\
+    &= 0 - 2\,dx\wedge dz + dy\wedge dx - dy\wedge dz.
+    \end{aligned}
+    \]
+    Since \(dy\wedge dx = -dx\wedge dy\), we obtain
+    \[
+    \alpha_1 \wedge \alpha_2 = -dx\wedge dy - 2\,dx\wedge dz - dy\wedge dz.
+    \]
+    \item[(b)] Let \(\omega = \alpha_1 \wedge \alpha_2\). For any two vectors \(u,v\),
+    \[
+    \omega(u,v) = - (dx\wedge dy)(u,v) - 2(dx\wedge dz)(u,v) - (dy\wedge dz)(u,v).
+    \]
+    Compute the needed values:
+    \[
+    dx(v_1)=1,\; dy(v_1)=0,\; dz(v_1)=1;\qquad dx(v_2)=0,\; dy(v_2)=1,\; dz(v_2)=0.
+    \]
+    Then
+    \[
+    \begin{aligned}
+    (dx\wedge dy)(v_1,v_2) &= dx(v_1)dy(v_2) - dx(v_2)dy(v_1) = 1\cdot1 - 0\cdot0 = 1,\\
+    (dx\wedge dz)(v_1,v_2) &= dx(v_1)dz(v_2) - dx(v_2)dz(v_1) = 1\cdot0 - 0\cdot1 = 0,\\
+    (dy\wedge dz)(v_1,v_2) &= dy(v_1)dz(v_2) - dy(v_2)dz(v_1) = 0\cdot0 - 1\cdot1 = -1.
+    \end{aligned}
+    \]
+    Hence
+    \[
+    \omega(v_1,v_2) = -1 - 2\cdot0 - (-1) = -1 + 1 = 0.
+    \]
+    \item[(c)] The pairing matrix \([\alpha_i(v_j)]\) is
+    \[
+    \begin{pmatrix}
+    \alpha_1(v_1) & \alpha_1(v_2) \\
+    \alpha_2(v_1) & \alpha_2(v_2)
+    \end{pmatrix}
+    = \begin{pmatrix}
+    2 & 1 \\
+    0 & 0
+    \end{pmatrix},
+    \]
+    because
+    \[
+    \alpha_1(v_1)=2\cdot1+0=2,\quad \alpha_1(v_2)=2\cdot0+1=1,\quad \alpha_2(v_1)=1-1=0,\quad \alpha_2(v_2)=0-0=0.
+    \]
+    Its determinant is \(2\cdot0 - 1\cdot0 = 0\), which coincides with \(\omega(v_1,v_2)=0\). This verifies the identity
+    \[
+    (\alpha_1 \wedge \alpha_2)(v_1,v_2) = \det\begin{pmatrix}
+    \alpha_1(v_1) & \alpha_1(v_2) \\
+    \alpha_2(v_1) & \alpha_2(v_2)
+    \end{pmatrix}.
+    \]
+\end{solution}
+
+\vfill
+
+\begin{problem}
+Consider the vector space $V = \mathbb{R}^5$ with the dual basis $dx_1, dx_2, dx_3, dx_4, dx_5$.
+\begin{enumerate}
+    \item[(a)] What is the dimension of the space of 3-covectors, $\Lambda^3(V^*)$? Calculate this using the binomial coefficient formula.
+    \item[(b)] List three distinct basis elements for $\Lambda^3(V^*)$ using the standard strictly increasing multi-index notation (e.g., $dx_I$).
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+\item[(a)] The dimension of \(\Lambda^3(V^*)\) is given by the binomial coefficient \(\binom{5}{3} = \frac{5!}{3!2!} = 10\).
+    \item[(b)] Three distinct basis elements are:
+    \[
+    dx_1 \wedge dx_2 \wedge dx_3,\qquad
+    dx_1 \wedge dx_2 \wedge dx_4,\qquad
+    dx_1 \wedge dx_3 \wedge dx_5.
+    \]\end{solution}
+
+\vfill
+\newpage
+
+\begin{problem}
+In $\mathbb{R}^3$, let $\omega$ be a general 1-form given by $\omega = P(x,y,z) dx + Q(x,y,z) dy + R(x,y,z) dz$. 
+Using the definition of the exterior derivative and the properties of the wedge product, compute $d\omega$. Express your final answer in terms of the standard basis 2-forms ($dy \wedge dz$, $dz \wedge dx$, $dx \wedge dy$). How do the coefficients of your answer relate to the classical vector $\curl$ operator?
+\end{problem}
+
+\begin{solution}
+By definition,
+\[
+d\omega = dP \wedge dx + dQ \wedge dy + dR \wedge dz.
+\]
+Compute each exterior derivative:
+\[
+dP = \frac{\partial P}{\partial x}dx + \frac{\partial P}{\partial y}dy + \frac{\partial P}{\partial z}dz,
+\]
+\[
+dQ = \frac{\partial Q}{\partial x}dx + \frac{\partial Q}{\partial y}dy + \frac{\partial Q}{\partial z}dz,
+\]
+\[
+dR = \frac{\partial R}{\partial x}dx + \frac{\partial R}{\partial y}dy + \frac{\partial R}{\partial z}dz.
+\]
+Now wedge with the corresponding form:
+\[
+dP \wedge dx = \left( \frac{\partial P}{\partial x}dx + \frac{\partial P}{\partial y}dy + \frac{\partial P}{\partial z}dz \right) \wedge dx
+= \frac{\partial P}{\partial y} dy\wedge dx + \frac{\partial P}{\partial z} dz\wedge dx.
+\]
+Since \(dy\wedge dx = -dx\wedge dy\), we write it as \( -\frac{\partial P}{\partial y} dx\wedge dy + \frac{\partial P}{\partial z} dz\wedge dx\).
+
+Next,
+\[
+dQ \wedge dy = \left( \frac{\partial Q}{\partial x}dx + \frac{\partial Q}{\partial y}dy + \frac{\partial Q}{\partial z}dz \right) \wedge dy
+= \frac{\partial Q}{\partial x} dx\wedge dy + \frac{\partial Q}{\partial z} dz\wedge dy.
+\]
+Because \(dz\wedge dy = -dy\wedge dz\), this becomes \( \frac{\partial Q}{\partial x} dx\wedge dy - \frac{\partial Q}{\partial z} dy\wedge dz\).
+
+Finally,
+\[
+dR \wedge dz = \left( \frac{\partial R}{\partial x}dx + \frac{\partial R}{\partial y}dy + \frac{\partial R}{\partial z}dz \right) \wedge dz
+= \frac{\partial R}{\partial x} dx\wedge dz + \frac{\partial R}{\partial y} dy\wedge dz.
+\]
+Note \(dx\wedge dz = -dz\wedge dx\), so we have \( -\frac{\partial R}{\partial x} dz\wedge dx + \frac{\partial R}{\partial y} dy\wedge dz\).
+
+Now sum all terms, grouping by the basis 2-forms:
+\begin{align*}
+d\omega &= \bigl( \frac{\partial R}{\partial y} - \frac{\partial Q}{\partial z} \bigr) dy\wedge dz \\
+        &\quad + \bigl( \frac{\partial P}{\partial z} - \frac{\partial R}{\partial x} \bigr) dz\wedge dx \\
+        &\quad + \bigl( \frac{\partial Q}{\partial x} - \frac{\partial P}{\partial y} \bigr) dx\wedge dy.
+\end{align*}
+\end{solution}
+
+\vfill
+
+\begin{problem}
+Let $M$ be the rectangular region $[0,a] \times [0,b]$ in $\mathbb{R}^2$. Let $\omega$ be the 1-form defined by $\omega = x^2 y \, dx$.
+\begin{enumerate}
+    \item[(a)] Compute the exterior derivative $d\omega$.
+    \item[(b)] Evaluate the area integral $\int_M d\omega$.
+    \item[(c)] Let $\partial M$ be the boundary of the rectangle oriented counter-clockwise. Evaluate the line integral $\int_{\partial M} \omega$ by explicitly parameterizing the four sides of the rectangle. Verify that your answer matches the result from part (b), conforming to the Generalized Stokes' Theorem.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}\item[(a)] \( \omega = x^2 y \, dx \). Then
+    \[
+    d\omega = d(x^2 y) \wedge dx = (2xy\,dx + x^2\,dy) \wedge dx = 2xy\,dx\wedge dx + x^2\,dy\wedge dx = x^2\,dy\wedge dx.
+    \]
+    Since \(dy\wedge dx = -dx\wedge dy\), we have
+    \[
+    d\omega = -x^2 \, dx\wedge dy.
+    \]
+
+    \item[(b)] Integrate \(d\omega\) over \(M\):
+    \[
+    \int_M d\omega = \int_0^a \int_0^b (-x^2) \, dy \, dx = \int_0^a -x^2 \cdot b \, dx = -b \int_0^a x^2\,dx = -b \cdot \frac{a^3}{3} = -\frac{a^3 b}{3}.
+    \]
+
+    \item[(c)] Parameterize the boundary \(\partial M\) counter‑clockwise, consisting of four sides:
+    \begin{itemize}
+        \item Bottom side: from \((0,0)\) to \((a,0)\), \(y=0\), \(dy=0\), so \(\omega = x^2\cdot 0\,dx = 0\). Integral = \(0\).
+        \item Right side: from \((a,0)\) to \((a,b)\), \(x=a\), \(dx=0\), so \(\omega = a^2 y \cdot 0 = 0\). Integral = \(0\).
+        \item Top side: from \((a,b)\) to \((0,b)\), going left. Parameterize \(x\) from \(a\) to \(0\), \(y=b\) constant, \(dy=0\), so \(\omega = x^2 b\,dx\). The integral is
+        \[
+        \int_{a}^{0} x^2 b\,dx = b \int_{a}^{0} x^2\,dx = -b \int_0^a x^2\,dx = -\frac{a^3 b}{3}.
+        \]
+        \item Left side: from \((0,b)\) to \((0,0)\), going down, \(x=0\), so \(\omega = 0\). Integral = \(0\).
+    \end{itemize}
+    Summing, \(\int_{\partial M} \omega = -\frac{a^3 b}{3}\), which matches \(\int_M d\omega\). This verifies Stokes' theorem.
+\end{solution}
+
+\vfill
+
+\end{document}
