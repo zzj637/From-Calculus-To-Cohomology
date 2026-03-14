@@ -1,0 +1,377 @@
+\documentclass[12pt, a4paper]{article}
+
+% Essential Math Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{geometry}
+
+% Page Setup and Margins
+\geometry{a4paper, margin=1in}
+
+% Header and Footer Configuration
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{From Calculus to Cohomology}
+\chead{Homework Set \# 2}
+\rhead{Name: Zijian Zhu}
+\lfoot{Instructor: Yuan Gao}
+\rfoot{Nanjing University}
+\cfoot{\thepage}
+
+% Theorem and Problem Environments
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+
+% Custom Solution Environment (uses a black square for the QED symbol)
+\newenvironment{solution}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[Solution]}
+  {\end{proof}}
+
+% Custom math operators
+\DeclareMathOperator{\curl}{curl}
+\DeclareMathOperator{\divg}{div}
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\sgn}{sgn}
+
+\begin{document}
+
+% Academic Integrity / Collaboration Declaration
+\noindent \textbf{Collaborators:} \textit{None}
+\vspace{0.8cm}
+
+% --- Begin Homework Problems ---
+
+\begin{problem}
+Let $\omega$ be the 1-form on $\mathbb{R}^3$ given by 
+$$\omega = x^2 y \, dx + \sin(xz) \, dy + e^{yz} \, dz$$
+Compute its exterior derivative $d\omega$, grouping your final answer in terms of the standard basis 2-forms ($dy \wedge dz$, $dx \wedge dz$, and $dx \wedge dy$).
+\end{problem}
+
+\begin{solution}
+\[
+d\omega = d(x^{2}y) \wedge dx + d(\sin(xz)) \wedge dy + d(e^{yz}) \wedge dz.
+\]
+We compute each term:
+\[
+d(x^{2}y) = 2xy\,dx + x^{2}\,dy \quad\Rightarrow\quad (2xy\,dx + x^{2}\,dy) \wedge dx = -x^{2}\,dx\wedge dy.
+\]
+\[
+d(\sin(xz)) = z\cos(xz)\,dx + x\cos(xz)\,dz \quad\Rightarrow\quad (z\cos(xz)\,dx + x\cos(xz)\,dz) \wedge dy = z\cos(xz)\,dx\wedge dy - x\cos(xz)\,dy\wedge dz.
+\]
+\[
+d(e^{yz}) = z e^{yz}\,dy + y e^{yz}\,dz \quad\Rightarrow\quad (z e^{yz}\,dy + y e^{yz}\,dz) \wedge dz = z e^{yz}\,dy\wedge dz.
+\]
+Summing, we obtain
+\[
+d\omega = \bigl(-x^{2} + z\cos(xz)\bigr)\,dx\wedge dy + \bigl(z e^{yz} - x\cos(xz)\bigr)\,dy\wedge dz.
+\]
+\end{solution}
+
+\vfill
+
+\begin{problem}
+Let $U = \mathbb{R}^2$ with coordinates $(u,v)$ and $V = \mathbb{R}^3$ with coordinates $(x,y,z)$. Consider the smooth map $F: U \to V$ given by $F(u,v) = (u^2, v^2, uv)$. Let $\omega$ be the 2-form on $V$ defined by:
+$$\omega = x \, dy \wedge dz + z \, dx \wedge dy$$
+Compute the pullback $F^*\omega$, expressing your final answer entirely in terms of $u, v$ and $du \wedge dv$.
+\end{problem}
+
+\begin{solution}
+\[
+F^{*}\omega = (x\circ F)\,d(y\circ F)\wedge d(z\circ F) + (z\circ F)\,d(x\circ F)\wedge d(y\circ F).
+\]
+Here \(x=u^{2}\), \(y=v^{2}\), \(z=uv\). Then
+\[
+d(y\circ F)=2v\,dv,\qquad d(z\circ F)=u\,dv+v\,du,\qquad d(x\circ F)=2u\,du.
+\]
+First term:
+\[
+u^{2}\cdot (2v\,dv)\wedge (u\,dv+v\,du)=2u^{2}v\,(u\,dv\wedge dv + v\,dv\wedge du)=2u^{2}v^{2}\,dv\wedge du = -2u^{2}v^{2}\,du\wedge dv.
+\]
+Second term:
+\[
+uv\cdot (2u\,du)\wedge (2v\,dv)=uv\cdot 4uv\,du\wedge dv = 4u^{2}v^{2}\,du\wedge dv.
+\]
+Adding gives
+\[
+F^{*}\omega = (-2u^{2}v^{2}+4u^{2}v^{2})\,du\wedge dv = 2u^{2}v^{2}\,du\wedge dv.
+\]
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}
+This problem verifies the Graded Leibniz Rule for specific forms. Let $\alpha = x \, dy + y \, dz$ and $\beta = z \, dx + x \, dy$ be 1-forms on $\mathbb{R}^3$.
+\begin{enumerate}
+    \item[(a)] Compute $d\alpha$ and $d\beta$.
+    \item[(b)] Compute the wedge product $\alpha \wedge \beta$ and then compute its exterior derivative $d(\alpha \wedge \beta)$.
+    \item[(c)] Because $\alpha$ is a 1-form ($k=1$), the Graded Leibniz Rule states that $d(\alpha \wedge \beta) = d\alpha \wedge \beta - \alpha \wedge d\beta$. Compute $d\alpha \wedge \beta - \alpha \wedge d\beta$ and verify that it equals your result from part (b).
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+
+(a)\[
+d\alpha = dx\wedge dy + dy\wedge dz,\qquad d\beta = dz\wedge dx + dx\wedge dy.
+\]
+
+(b)\[
+\alpha\wedge\beta = (x\,dy + y\,dz)\wedge(z\,dx + x\,dy) = -xz\,dx\wedge dy - yz\,dx\wedge dz - xy\,dy\wedge dz.
+\]
+Now compute the exterior derivative:
+\[
+d(-xz\,dx\wedge dy) = -(z\,dx + x\,dz)\wedge dx\wedge dy = -x\,dz\wedge dx\wedge dy = -x\,dx\wedge dy\wedge dz,
+\]
+\[
+d(-yz\,dx\wedge dz) = -(z\,dy + y\,dz)\wedge dx\wedge dz = -z\,dy\wedge dx\wedge dz = z\,dx\wedge dy\wedge dz,
+\]
+\[
+d(-xy\,dy\wedge dz) = -(y\,dx + x\,dy)\wedge dy\wedge dz = -y\,dx\wedge dy\wedge dz.
+\]
+Summing: \(d(\alpha\wedge\beta) = (-x+z-y)\,dx\wedge dy\wedge dz = (z-x-y)\,dx\wedge dy\wedge dz.\)
+
+(c)\[
+d\alpha\wedge\beta = (dx\wedge dy + dy\wedge dz)\wedge(z\,dx + x\,dy) = z\,dy\wedge dz\wedge dx = z\,dx\wedge dy\wedge dz,
+\]
+\[
+\alpha\wedge d\beta = (x\,dy + y\,dz)\wedge(dz\wedge dx + dx\wedge dy) = x\,dy\wedge dz\wedge dx + y\,dz\wedge dx\wedge dy = x\,dx\wedge dy\wedge dz + y\,dx\wedge dy\wedge dz = (x+y)\,dx\wedge dy\wedge dz.
+\]
+Thus \(d\alpha\wedge\beta - \alpha\wedge d\beta = (z-x-y)\,dx\wedge dy\wedge dz\), matching part (b).
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}
+Let $f$ and $g$ be smooth scalar functions ($0$-forms) on an open set $U \subseteq \mathbb{R}^n$.
+\begin{enumerate}
+    \item[(a)] Using only the intrinsic axioms of the exterior derivative (the Graded Leibniz Rule and the square-zero property $d^2 = 0$), mathematically prove that $d(f \, dg) = df \wedge dg$.
+    \item[(b)] Using the same axioms, what is $d(df \wedge dg)$? Briefly justify your answer.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+
+(a)By the graded Leibniz rule with \(\alpha=f\) (0‑form) and \(\beta=dg\) (1‑form):
+\[
+d(f\wedge dg) = df\wedge dg + (-1)^{0}f\wedge d(dg) = df\wedge dg + f\wedge d^{2}g = df\wedge dg,
+\]
+since \(d^{2}g=0\).
+
+(b)With \(\alpha=df\) (1‑form) and \(\beta=dg\) (1‑form):
+\[
+d(df\wedge dg) = d^{2}f\wedge dg - df\wedge d^{2}g = 0.
+\]
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}
+One of the most important properties of the pullback is that it commutes with the exterior derivative: $d(F^*\omega) = F^*(d\omega)$. We will verify this using the map $F$ and the 2-form $\omega$ from Problem 2.
+\begin{enumerate}
+    \item[(a)] First, calculate the exterior derivative $d\omega$ on $V = \mathbb{R}^3$. What must the pullback $F^*(d\omega)$ be purely based on dimensional constraints on $U = \mathbb{R}^2$?
+    \item[(b)] Take your final pulled-back form $F^*\omega$ from Problem 2 and compute its exterior derivative $d(F^*\omega)$. Does it match your answer from part (a)?
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+
+(a)First compute \(d\omega\) on \(V=\mathbb{R}^{3}\).
+\[
+\omega = x\,dy\wedge dz + z\,dx\wedge dy \quad\Rightarrow\quad d\omega = dx\wedge dy\wedge dz + dz\wedge dx\wedge dy = 2\,dx\wedge dy\wedge dz.
+\]
+Since \(U=\mathbb{R}^{2}\) is two‑dimensional, any 3‑form pulls back to zero, so \(F^{*}(d\omega)=0\).
+
+(b)From Problem 2, \(F^{*}\omega = 2u^{2}v^{2}\,du\wedge dv\). Then
+\[
+d(F^{*}\omega) = d(2u^{2}v^{2})\wedge du\wedge dv = (4u v^{2}\,du + 4u^{2}v\,dv)\wedge du\wedge dv = 0,
+\]
+which matches \(F^{*}(d\omega)\).
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}
+Let $V = \mathbb{R}^2 \setminus \{(0,0)\}$ and consider the angle form $\omega = \frac{-y}{x^2+y^2}dx + \frac{x}{x^2+y^2}dy$. Let $U = (0, 2\pi)$ with coordinate $t$, and let $\iota: U \to V$ be the parameterization of the unit circle given by $\iota(t) = (\cos t, \sin t)$.
+\begin{enumerate}
+    \item[(a)] Compute the pullback $\iota^*\omega$, expressing your answer entirely in terms of $t$ and $dt$.
+    \item[(b)] Use your answer to evaluate the integral $\int_0^{2\pi} \iota^*\omega$.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+
+(a)Compute \(\iota^{*}\omega\).
+Substituting \(x=\cos t,\;y=\sin t\):
+\[
+\iota^{*}\omega = \frac{-\sin t}{1}\,d(\cos t) + \frac{\cos t}{1}\,d(\sin t) = -\sin t(-\sin t\,dt) + \cos t(\cos t\,dt) = (\sin^{2}t+\cos^{2}t)\,dt = dt.
+\]
+\end{solution}
+
+(b)Evaluate \(\int_{0}^{2\pi}\iota^{*}\omega\).
+\[
+\int_{0}^{2\pi} dt = 2\pi.
+\]
+
+\vfill\newpage
+
+\begin{problem}
+Let $U \subseteq \mathbb{R}^3$ and consider an arbitrary 3-form $\omega = A(x,y,z) \, dx \wedge dy \wedge dz$.
+\begin{enumerate}
+    \item[(a)] Compute the exterior derivative $d\omega$. 
+    \item[(b)] Based on your result and the algebraic properties of the exterior algebra $\Lambda^k(\mathbb{R}^n)^*$, briefly explain why \emph{every} $n$-form on an $n$-dimensional open set must be closed.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+
+(a)\[
+d\omega = dA\wedge dx\wedge dy\wedge dz.
+\]
+Since \(dA\) is a 1‑form, the wedge product is a 4‑form, which must be zero on a 3-dimensional space. Hence \(d\omega=0\).
+
+(b)Explain why every \(n\)-form on an \(n\)-dimensional open set is closed.
+The exterior derivative raises the degree by one, but there are no non‑zero \((n+1)\)-forms in an \(n\)-dimensional manifold. Therefore \(d\omega=0\) for any \(n\)-form \(\omega\).
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}
+Let $U = \mathbb{R}^3 \setminus \{(0,0,0)\}$. Consider the 1-form:
+$$\omega = \frac{x \, dx + y \, dy + z \, dz}{(x^2+y^2+z^2)^{3/2}}$$
+\begin{enumerate}
+    \item[(a)] Compute $d\omega$ to show that $\omega$ is a closed form.
+    \item[(b)] Show that $\omega$ is also an exact form by explicitly verifying that $\omega = df$ for the function $f(x,y,z) = -(x^2+y^2+z^2)^{-1/2}$.
+    \item[(c)] In Lecture 1, we learned that the ``angle form'' on the punctured plane $\mathbb{R}^2 \setminus \{(0,0)\}$ is closed but \emph{not} exact. Why does the exactness of $\omega$ on the punctured space $\mathbb{R}^3 \setminus \{(0,0,0)\}$ not contradict this topological principle? Briefly reference the relevant cohomology group from Lecture 1.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+
+(a)Note that \(\omega = df\) with \(f=-(x^{2}+y^{2}+z^{2})^{-1/2}\) (see part (b)). Hence \(d\omega = d^{2}f = 0\).
+
+(b)Let \(r = \sqrt{x^{2}+y^{2}+z^{2}}\). Then \(f = -r^{-1}\) and
+\[
+df = d(-r^{-1}) = \frac{1}{r^{2}}\,dr = \frac{1}{r^{2}}\cdot\frac{x\,dx+y\,dy+z\,dz}{r} = \frac{x\,dx+y\,dy+z\,dz}{r^{3}} = \omega.
+\]
+
+(c)Why does exactness on \(\mathbb{R}^{3}\setminus\{0\}\) not contradict the non‑exactness of the angle form on \(\mathbb{R}^{2}\setminus\{0\}\)?
+The first de Rham cohomology \(H^{1}(\mathbb{R}^{3}\setminus\{0\})\) is trivial because \(\mathbb{R}^{3}\setminus\{0\}\) is simply connected, whereas \(H^{1}(\mathbb{R}^{2}\setminus\{0\})\cong\mathbb{R}\) (generated by the angle form). Thus closed 1‑forms on \(\mathbb{R}^{3}\setminus\{0\}\) are always exact.
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}
+Consider the 1-form $\omega = (2xy) \, dx + (x^2 + 3z) \, dy + (3y) \, dz$ on $\mathbb{R}^3$.
+\begin{enumerate}
+    \item[(a)] Compute $d\omega$ to verify that $\omega$ is a closed form.
+    \item[(b)] Since $\mathbb{R}^3$ is star-shaped with respect to the origin, the Poincar\'e Lemma guarantees $\omega$ is exact. Apply the explicit homotopy operator formula $h\omega$ (for $k=1$) to find a function $f = h\omega$ such that $df = \omega$.
+    \item[(c)] Verify your answer by computing the total differential $df$.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+
+(a)
+\[
+d\omega = d(2xy)\wedge dx + d(x^{2}+3z)\wedge dy + d(3y)\wedge dz.
+\]
+\[
+d(2xy)=2y\,dx+2x\,dy \;\Rightarrow\; (2y\,dx+2x\,dy)\wedge dx = -2x\,dx\wedge dy.
+\]
+\[
+d(x^{2}+3z)=2x\,dx+3\,dz \;\Rightarrow\; (2x\,dx+3\,dz)\wedge dy = 2x\,dx\wedge dy -3\,dy\wedge dz.
+\]
+\[
+d(3y)=3\,dy \;\Rightarrow\; 3\,dy\wedge dz.
+\]
+Summing: \(d\omega = (-2x+2x)\,dx\wedge dy + (-3+3)\,dy\wedge dz = 0\).
+
+(b)
+For a 1‑form \(\omega = \sum \omega_i dx^i\), the homotopy operator gives
+\[
+f(x) = \int_{0}^{1} \sum_i \omega_i(tx)\, x^i \, dt.
+\]
+Here \(\omega_x = 2xy\), \(\omega_y = x^{2}+3z\), \(\omega_z = 3y\). Substituting \(tx,ty,tz\):
+\[
+\omega_x(tx,ty,tz)=2t^{2}xy,\quad \omega_y = t^{2}x^{2}+3tz,\quad \omega_z = 3ty.
+\]
+Then
+\[
+\sum \omega_i x^i = 2t^{2}xy\cdot x + (t^{2}x^{2}+3tz)\cdot y + 3ty\cdot z = 3t^{2}x^{2}y + 6t y z.
+\]
+Integrate from \(t=0\) to \(1\):
+\[
+f = \int_{0}^{1} (3t^{2}x^{2}y + 6t y z)\,dt = x^{2}y + 3yz.
+\]
+
+(c)
+\[
+df = d(x^{2}y) + d(3yz) = (2xy\,dx + x^{2}\,dy) + (3z\,dy + 3y\,dz) = 2xy\,dx + (x^{2}+3z)\,dy + 3y\,dz = \omega.
+\]
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}
+Let $U = \mathbb{R}^3$. Consider the 2-form $\omega = x \, dy \wedge dz + y \, dx \wedge dz$.
+\begin{enumerate}
+    \item[(a)] Compute $d\omega$ to verify that $\omega$ is closed.
+    \item[(b)] Use the explicit homotopy operator formula $h\omega$ (for $k=2$) from the lecture:
+    $$h\omega = \sum_{j=1}^k (-1)^{j-1} \left( \int_0^1 t^{k-1} f(tx) dt \right) x_{i_j} dx_{i_1} \dots \widehat{dx_{i_j}} \dots dx_{i_k}$$
+    to find a 1-form $\eta = h\omega$ such that $d\eta = \omega$. \textit{(Hint: Apply the formula to $x \, dy \wedge dz$ and $y \, dx \wedge dz$ separately and add the results).}
+    \item[(c)] Compute $d\eta$ directly from your answer in (b) to verify your primitive is correct.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+
+(a)
+\[
+d\omega = dx\wedge dy\wedge dz + dy\wedge dx\wedge dz = dx\wedge dy\wedge dz - dx\wedge dy\wedge dz = 0.
+\]
+
+(b)
+For a term \(f\,dx^{i}\wedge dx^{j}\), the formula is
+\[
+h(f\,dx^{i}\wedge dx^{j}) = \left(\int_{0}^{1} t f(tx)\,dt\right) \left(x^{i}dx^{j} - x^{j}dx^{i}\right).
+\]
+Apply to \(\omega_1 = x\,dy\wedge dz\): \(f=x\), \(i=2\), \(j=3\). Then
+\[
+\int_{0}^{1} t\cdot (tx)\,dt = \int_{0}^{1} t^{2}x\,dt = \frac{x}{3},
+\]
+so contribution: \(\frac{x}{3}(y\,dz - z\,dy) = \frac{xy}{3}dz - \frac{xz}{3}dy\).
+Apply to \(\omega_2 = y\,dx\wedge dz\): \(f=y\), \(i=1\), \(j=3\). Then
+\[
+\int_{0}^{1} t\cdot (ty)\,dt = \frac{y}{3},
+\]
+contribution: \(\frac{y}{3}(x\,dz - z\,dx) = \frac{xy}{3}dz - \frac{yz}{3}dx\).
+Summing:
+\[
+\eta = -\frac{yz}{3}dx - \frac{xz}{3}dy + \frac{2xy}{3}dz.
+\]
+
+(c)
+\[
+d\eta = d\left(-\frac{yz}{3}dx\right) + d\left(-\frac{xz}{3}dy\right) + d\left(\frac{2xy}{3}dz\right).
+\]
+\[
+d\left(-\frac{yz}{3}dx\right) = -\frac{1}{3}(z\,dy + y\,dz)\wedge dx = \frac{z}{3}dx\wedge dy + \frac{y}{3}dx\wedge dz,
+\]
+\[
+d\left(-\frac{xz}{3}dy\right) = -\frac{1}{3}(z\,dx + x\,dz)\wedge dy = -\frac{z}{3}dx\wedge dy + \frac{x}{3}dy\wedge dz,
+\]
+\[
+d\left(\frac{2xy}{3}dz\right) = \frac{2}{3}(y\,dx + x\,dy)\wedge dz = \frac{2y}{3}dx\wedge dz + \frac{2x}{3}dy\wedge dz.
+\]
+Summing coefficients:
+- \(dx\wedge dy\): \(\frac{z}{3} - \frac{z}{3} = 0\),
+- \(dx\wedge dz\): \(\frac{y}{3} + \frac{2y}{3} = y\),
+- \(dy\wedge dz\): \(\frac{x}{3} + \frac{2x}{3} = x\).
+Thus \(d\eta = x\,dy\wedge dz + y\,dx\wedge dz = \omega\).
+\end{solution}
+
+\vfill
+
+\end{document}
