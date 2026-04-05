@@ -1,0 +1,317 @@
+\documentclass[12pt, a4paper]{article}
+
+% Essential Math Packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{geometry}
+\usepackage{tikz-cd}
+
+% Page Setup and Margins
+\geometry{a4paper, margin=1in}
+
+% Header and Footer Configuration
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{From Calculus to Cohomology}
+\chead{Homework Set \# 4}
+\rhead{Name: Zhu Zijian}
+\lfoot{Instructor: Yuan Gao}
+\rfoot{Nanjing University}
+\cfoot{\thepage}
+
+% Theorem and Problem Environments
+\theoremstyle{definition}
+\newtheorem{problem}{Problem}
+
+% Custom Solution Environment (uses a black square for the QED symbol)
+\newenvironment{solution}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[Solution]}
+  {\end{proof}}
+
+% Custom math operators
+\DeclareMathOperator{\curl}{curl}
+\DeclareMathOperator{\divg}{div}
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\id}{id}
+
+% Additional macros
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\dd}{d}
+
+\begin{document}
+
+% Academic Integrity / Collaboration Declaration
+\noindent \textbf{Collaborators:} \textit{[List any classmates you discussed these problems with here. If you worked entirely alone, write "None".]}
+\vspace{0.8cm}
+
+% --- Begin Homework Problems ---
+
+\begin{problem}[Topological Manifold Axioms]
+Consider the set $X = \{(x,y) \in \RR^2 \mid xy = 0\}$ (geometrically, the union of the x-axis and y-axis) equipped with the subspace topology from $\RR^2$. Prove that $X$ is \emph{not} a topological 1-manifold. 
+\textit{(Hint: Focus on the origin $(0,0)$. Suppose for the sake of contradiction that it has an open neighborhood homeomorphic to an open interval $(a,b) \subset \RR$, and consider what happens topologically to both spaces if you remove the center point.)}
+\end{problem}
+\begin{solution}
+Suppose that $X$ is a topological 1-manifold. Then every point in $X$, including the origin $p = (0,0)$, must have an open neighborhood $U \subset X$ that is homeomorphic to an open interval $(a,b) \subset \RR$. 
+
+Let $\varphi: U \to (a,b)$ be such a homeomorphism, and let $c = \varphi(p) \in (a,b)$. Because $\varphi$ is a homeomorphism, it restricts to a homeomorphism between the punctured spaces:
+\[
+U \setminus \{p\} \cong (a,b) \setminus \{c\}
+\]
+In the standard topology of $\RR$, removing a point from an open interval $(a,b)$ separates it into exactly two connected components: $(a,c)$ and $(c,b)$. 
+
+Removing the origin $(0,0)$ from $U$ breaks the set $U \setminus \{(0,0)\}$ into at least four separate connected components (the positive/negative x-axes and positive/negative y-axes within $U$). 
+
+Since the number of connected components is a topological invariant, a space with 4 connected components cannot be homeomorphic to a space with 2 connected components. This is a contradiction. Therefore, no such homeomorphism exists, and $X$ is not a topological 1-manifold.\end{solution}
+
+\vfill\newpage
+
+\begin{problem}[Incompatible Charts]
+Let $M = \RR$ equipped with its standard topology. Consider two charts: $(U_1, \phi_1) = (\RR, x \mapsto x)$ and $(U_2, \phi_2) = (\RR, x \mapsto x^3)$.
+\begin{enumerate}
+    \item[(a)] Explicitly compute the transition functions $\phi_2 \circ \phi_1^{-1}$ and $\phi_1 \circ \phi_2^{-1}$.
+    \item[(b)] Are these two charts $C^\infty$-compatible? Do they belong to the same maximal smooth atlas? Justify your answers using the definitions from the lecture.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+(a) $\phi_1(x) = x$ and $\phi_2(x) = x^3$. The domains are $U_1 = U_2 = \RR$. Their inverses are defined as:
+\[
+\phi_1^{-1}(y) = y \quad \text{and} \quad \phi_2^{-1}(y) = y^{1/3}
+\]
+The transition maps on $\RR$ are:
+\begin{align*}
+\phi_2 \circ \phi_1^{-1}(x) &= \phi_2(x) = x^3 \\
+\phi_1 \circ \phi_2^{-1}(y) &= \phi_1(y^{1/3}) = y^{1/3}
+\end{align*}
+
+(b) $\phi_2 \circ \phi_1^{-1}(x) = x^3$ is infinitely differentiable everywhere on $\RR$, the inverse transition function $\phi_1 \circ \phi_2^{-1}(y) = y^{1/3}$ is not differentiable at $y = 0$. It is not a $C^\infty$ map.
+
+Because the transition maps are not both smooth, the charts are not $C^\infty$-compatible. Consequently, they do not belong to the same maximal smooth atlas, as a maximal atlas only contains charts that are pairwise smoothly compatible.
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}[Stereographic Projection for $S^1$]
+Let $S^1 \subset \RR^2$ be the unit circle. Stereographic projection from the North pole $N=(0,1)$ onto the x-axis yields the chart $U_N = S^1 \setminus \{N\}$ with coordinate map $\sigma_N(x,y) = \frac{x}{1-y}$. Projection from the South pole $S=(0,-1)$ yields $U_S = S^1 \setminus \{S\}$ with $\sigma_S(x,y) = \frac{x}{1+y}$.
+
+The inverse of $\sigma_N$ is given by mapping a parameter $t \in \RR$ back to the circle:
+$$\sigma_N^{-1}(t) = \left( \frac{2t}{t^2+1}, \frac{t^2-1}{t^2+1} \right)$$
+Compute the explicit formula for the transition map $\sigma_S \circ \sigma_N^{-1}(t)$. What is the domain of this transition map in $\RR$, and is it a smooth function on that domain?
+\end{problem}
+\begin{solution}
+We substitute the coordinates of $\sigma_N^{-1}(t)$ into the definition of $\sigma_S$. Let $(x,y) = \sigma_N^{-1}(t)$. Then:
+\[
+x = \frac{2t}{t^2+1}, \quad y = \frac{t^2-1}{t^2+1}
+\]
+Now, apply $\sigma_S(x,y) = \frac{x}{1+y}$:
+\begin{align*}
+\sigma_S \circ \sigma_N^{-1}(t) &= \frac{\frac{2t}{t^2+1}}{1 + \frac{t^2-1}{t^2+1}} \\
+&= \frac{\frac{2t}{t^2+1}}{\frac{t^2+1 + t^2-1}{t^2+1}} \\
+&= \frac{2t}{2t^2} \\
+&= \frac{1}{t}
+\end{align*}
+ The domain of the transition map in $\RR$ is $\RR \setminus \{0\}$.
+It is infinitely differentiable, meaning it is indeed a smooth function on that domain.
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}[Coordinate Changes as Diffeomorphisms]
+Let $M$ be a smooth manifold. Suppose $(U, \phi)$ and $(U, \psi)$ are two charts in its maximal smooth atlas $\mathcal{A}_{\max}$ that happen to cover the \emph{exact same} open set $U \subset M$. 
+Prove that the transition function $\psi \circ \phi^{-1} : \phi(U) \to \psi(U)$ is a diffeomorphism between open subsets of $\RR^n$.
+\end{problem}
+\begin{solution}
+
+\textbf{Bijection:} By definition of a chart, both $\phi: U \to \phi(U)$ and $\psi: U \to \psi(U)$ are homeomorphisms, and hence bijections. The composition of two bijections is a bijection. The inverse map is simply given by $\tau^{-1} = (\psi \circ \phi^{-1})^{-1} = \phi \circ \psi^{-1} : \psi(U) \to \phi(U)$.
+
+\textbf{Smoothness of forward map:} Because both $(U, \phi)$ and $(U, \psi)$ belong to the maximal smooth atlas $\mathcal{A}_{\max}$, they are by definition $C^\infty$-compatible. Compatibility requires that the transition function on the intersection of their domains is smooth. Since they cover the exact same set, the intersection is $U \cap U = U$. Thus, the transition map $\psi \circ \phi^{-1} : \phi(U) \to \psi(U)$ is smooth.
+
+\textbf{Smoothness of inverse map:} Symmetrically, the compatibility condition also dictates that the reverse transition function $\phi \circ \psi^{-1} : \psi(U) \to \phi(U)$ is smooth. Since this is exactly $\tau^{-1}$, the inverse is smooth.
+
+Since $\psi \circ \phi^{-1}$ is a bijection and both it and its inverse are smooth, it is a diffeomorphism between the open subsets $\phi(U)$ and $\psi(U)$ in $\RR^n$.
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}[Real Projective Plane $\RR P^2$]
+Consider the real projective plane $\RR P^2$ with homogeneous coordinates $[x_0 : x_1 : x_2]$. Let $U_0 = \{ [x] \mid x_0 \neq 0 \}$ and $U_1 = \{ [x] \mid x_1 \neq 0 \}$ be the standard charts with coordinate maps:
+$$\phi_0([x]) = \left(\frac{x_1}{x_0}, \frac{x_2}{x_0}\right) = (u_1, u_2) \quad \text{and} \quad \phi_1([x]) = \left(\frac{x_0}{x_1}, \frac{x_2}{x_1}\right) = (v_1, v_2)$$
+Explicitly compute the transition map $\phi_1 \circ \phi_0^{-1}(u_1, u_2)$ in terms of $u_1$ and $u_2$. Specify the domain of this map as an open subset of $\RR^2$ and verify that it is a smooth map.
+\end{problem}
+\begin{solution}
+First, we compute the inverse of the coordinate map $\phi_0$. Given $(u_1, u_2) \in \phi_0(U_0)$, we can identify the corresponding equivalence class in $\RR P^2$ by setting $x_0 = 1$. Then $x_1 = u_1$ and $x_2 = u_2$. Thus:
+\[
+\phi_0^{-1}(u_1, u_2) = [1 : u_1 : u_2]
+\]
+
+Next, we apply the map $\phi_1$ to this point. We have coordinates $x_0 = 1, x_1 = u_1, x_2 = u_2$:
+\[
+\phi_1([1 : u_1 : u_2]) = \left( \frac{1}{u_1}, \frac{u_2}{u_1} \right)
+\]
+Therefore, the transition map is:
+\[
+\phi_1 \circ \phi_0^{-1}(u_1, u_2) = \left( \frac{1}{u_1}, \frac{u_2}{u_1} \right)
+\]
+
+\textbf{Domain:} In $U_0$, we require $x_0 \neq 0$. In $U_1$, we require $x_1 \neq 0$. In the local coordinates of $\phi_0$, the condition $x_1 \neq 0$ translates to $u_1 = x_1/x_0 \neq 0$. 
+Thus, the domain is the open subset of $\RR^2$ given by:
+\[
+\{ (u_1, u_2) \in \RR^2 \mid u_1 \neq 0 \}
+\]
+
+\textbf{Smoothness:} The components of the transition map are $f_1(u_1, u_2) = 1/u_1$ and $f_2(u_1, u_2) = u_2/u_1$. These are rational functions whose denominators do not vanish on the domain $u_1 \neq 0$. Therefore, all partial derivatives of all orders exist and are continuous. The map is smooth.
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}[Smooth Projections on Product Manifolds]
+Let $M$ and $N$ be smooth manifolds. By Proposition 3.5, the product manifold $M \times N$ has a smooth atlas consisting of product charts $(U_\alpha \times V_\beta, \phi_\alpha \times \psi_\beta)$. 
+Using the rigorous definition of a smooth map (Definition 4.1), prove that the natural projection map $\pi_M: M \times N \to M$ defined by $\pi_M(p, q) = p$ is a smooth map. 
+\textit{(Hint: Write down the local coordinate representation of $\pi_M$ using the given product charts and verify it is a smooth map between Euclidean spaces.)}
+\end{problem}
+\begin{solution}
+Let $(p,q) \in M \times N$ be an arbitrary point. We choose a product chart $(U_\alpha \times V_\beta, \phi_\alpha \times \psi_\beta)$ around $(p,q)$ on $M \times N$, where $U_\alpha$ is a chart domain around $p$ in $M$, and $V_\beta$ is a chart domain around $q$ in $N$. 
+For the target manifold $M$, we choose the chart $(U_\alpha, \phi_\alpha)$ around $\pi_M(p,q) = p$.
+
+The local coordinate representation of $\pi_M$ with respect to these charts is:
+\[
+\widehat{\pi}_M = \phi_\alpha \circ \pi_M \circ (\phi_\alpha \times \psi_\beta)^{-1}
+\]
+Let $(x,y)$ be the local coordinates in $\RR^m \times \RR^n$, so $(x,y) \in \phi_\alpha(U_\alpha) \times \psi_\beta(V_\beta)$. We evaluate the map:
+\begin{align*}
+\widehat{\pi}_M(x,y) &= \phi_\alpha \left( \pi_M \left( (\phi_\alpha \times \psi_\beta)^{-1}(x,y) \right) \right) \\
+&= \phi_\alpha \left( \pi_M \left( \phi_\alpha^{-1}(x), \psi_\beta^{-1}(y) \right) \right)
+\end{align*}
+Applying the definition of the projection $\pi_M(p,q) = p$:
+\begin{align*}
+\widehat{\pi}_M(x,y) &= \phi_\alpha \left( \phi_\alpha^{-1}(x) \right) \\
+&= x
+\end{align*}
+
+Thus, the local representation $\widehat{\pi}_M: \RR^{m+n} \to \RR^m$ is exactly the standard projection mapping $(x,y) \mapsto x$. This is a linear map between Euclidean spaces, and hence its components are trivially smooth ($C^\infty$). Since the local coordinate representation is smooth for every point $(p,q)$, the global map $\pi_M$ is smooth.
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}[Translations in Lie Groups]
+Let $G$ be a Lie group. For any fixed element $h \in G$, define the left-translation map $L_h: G \to G$ by $L_h(g) = hg$.
+\begin{enumerate}
+    \item[(a)] Explain why $L_h$ is guaranteed to be a smooth map.
+    \item[(b)] Prove that $L_h$ is a diffeomorphism from $G$ to itself. \textit{(Hint: What is the inverse map of $L_h$?)}
+\end{enumerate}
+\end{problem}
+\begin{solution}
+(a) The left-translation map $L_h(g)$ can be written as the composition of two smooth maps:
+1. The inclusion map $i_h: G \to G \times G$ defined by $i_h(g) = (h, g)$. This is smooth because fixing one coordinate to a constant in a product manifold yields a smooth embedding.
+2. The multiplication map $\mu: G \times G \to G$, which is smooth by the Lie group axioms.
+
+Thus, $L_h(g) = \mu(i_h(g)) = \mu(h, g)$. Since the composition of smooth maps is smooth, $L_h$ is guaranteed to be a smooth map.
+
+(b) To prove $L_h$ is a diffeomorphism, we must show it is a bijection with a smooth inverse. 
+Consider the element $h^{-1} \in G$. We construct the left-translation map $L_{h^{-1}}: G \to G$, defined by $L_{h^{-1}}(g) = h^{-1}g$. 
+Let us compose $L_h$ and $L_{h^{-1}}$:
+\begin{align*}
+L_{h^{-1}}(L_h(g)) &= h^{-1}(hg) = (h^{-1}h)g = eg = g \\
+L_h(L_{h^{-1}}(g)) &= h(h^{-1}g) = (hh^{-1})g = eg = g
+\end{align*}
+Thus, $L_{h^{-1}}$ is the two-sided inverse of $L_h$, making $L_h$ a bijection. Furthermore, since $h^{-1}$ is just another fixed element of the Lie group $G$, the map $L_{h^{-1}}$ is also smooth by the exact same logic established in part (a).
+
+Since $L_h$ is a bijection, is smooth, and its inverse is smooth, it is a diffeomorphism from $G$ to itself.
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}[Identity Maps between Distinct Smooth Structures]
+Let $\RR_{\text{std}}$ denote the topological space $\RR$ equipped with the standard smooth structure generated by $\phi_1(x) = x$. Let $\RR_{\text{alt}}$ denote $\RR$ equipped with the alternate smooth structure generated by the chart $\phi_2(x) = x^3$.
+\begin{enumerate}
+    \item[(a)] Consider the identity map $\id: \RR_{\text{std}} \to \RR_{\text{alt}}$ defined by $\id(x) = x$. Calculate its local coordinate representation and determine if it is a smooth map.
+    \item[(b)] Consider the reverse identity map $\id: \RR_{\text{alt}} \to \RR_{\text{std}}$ defined by $\id(x) = x$. Calculate its local coordinate representation and determine if it is a smooth map.
+\end{enumerate}
+\end{problem}
+\begin{solution}
+(a) Map $\id: \RR_{\text{std}} \to \RR_{\text{alt}}$.
+The source chart is $\phi_1$ and the target chart is $\phi_2$. 
+\[
+\widehat{\id}(y) = \phi_2 \circ \id \circ \phi_1^{-1}(y)
+\]
+Since $\phi_1^{-1}(y) = y$ and $\id(x) = x$:
+\[
+\widehat{\id}(y) = \phi_2( \id(y) ) = \phi_2(y) = y^3
+\]
+The function $f(y) = y^3$ is a polynomial, which is infinitely differentiable everywhere on $\RR$. Therefore, this map \textbf{is} a smooth map.
+
+(b) Map $\id: \RR_{\text{alt}} \to \RR_{\text{std}}$.
+The source chart is now $\phi_2$ and the target chart is $\phi_1$.
+\[
+\widehat{\id}(y) = \phi_1 \circ \id \circ \phi_2^{-1}(y)
+\]
+Since $\phi_2(x) = x^3 \implies \phi_2^{-1}(y) = y^{1/3}$:
+\[
+\widehat{\id}(y) = \phi_1( \id(y^{1/3}) ) = \phi_1(y^{1/3}) = y^{1/3}
+\]
+The function $g(y) = y^{1/3}$ has a derivative $g'(y) = \frac{1}{3}y^{-2/3}$, which is undefined at $y = 0$. Because it fails to be differentiable at the origin, the local representation is not smooth. Therefore, this reverse identity map is not a smooth map.
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}[Diffeomorphisms of Euclidean Spaces]
+The lecture notes state that the open unit ball $B^n$ is diffeomorphic to $\RR^n$.
+Using a similar methodology, prove that the open interval $(-1, 1)$ is diffeomorphic to the real line $\RR$ by explicitly defining a bijective map $F: (-1, 1) \to \RR$ and its inverse $G: \RR \to (-1, 1)$, and demonstrating that both are smooth maps. 
+\textit{(Hint: You may use trigonometric functions, or rational functions such as $F(x) = \frac{x}{1-x^2}$.)}
+\end{problem}
+\begin{solution}
+Using trigonometric functions provides an elegant and explicit diffeomorphism. 
+Define the map $F: (-1, 1) \to \RR$ by:
+\[
+F(x) = \tan\left(\frac{\pi x}{2}\right)
+\]
+\textbf{Bijection:} 
+The argument $\frac{\pi x}{2}$ scales the interval $(-1, 1)$ strictly to $(-\pi/2, \pi/2)$. On the domain $(-\pi/2, \pi/2)$, the tangent function is strictly monotonically increasing and its range covers all of $\RR$. Thus, $F(x)$ is a bijection.
+
+The explicit inverse map $G: \RR \to (-1, 1)$ is given by:
+\[
+G(y) = F^{-1}(y) = \frac{2}{\pi} \arctan(y)
+\]
+We can easily verify that $F(G(y)) = \tan(\arctan(y)) = y$, and $G(F(x)) = \frac{2}{\pi}\arctan(\tan(\frac{\pi x}{2})) = x$ for $x \in (-1, 1)$.
+
+\textbf{Smoothness of $F$:} 
+The function $\tan(\theta)$ is smooth ($C^\infty$) on $(-\pi/2, \pi/2)$. Since $x \mapsto \frac{\pi x}{2}$ is a linear mapping and keeps the input entirely within the smooth domain of the tangent function, $F(x)$ is a smooth map.
+
+\textbf{Smoothness of $G$:} 
+The function $\arctan(y)$ has derivatives of all orders for all $y \in \RR$ (for example, the first derivative is $\frac{1}{1+y^2}$, the second is $\frac{-2y}{(1+y^2)^2}$, etc., with denominators that never vanish on $\RR$). Scaling by a constant $\frac{2}{\pi}$ does not affect differentiability. Thus, $G(y)$ is a smooth map.
+
+Since $F$ is a bijection and both $F$ and $F^{-1}$ are smooth, $F$ is a diffeomorphism, and thus $(-1, 1)$ is diffeomorphic to $\RR$.
+\end{solution}
+
+\vfill\newpage
+
+\begin{problem}[Topological Invariants and Diffeomorphisms]
+A diffeomorphism between two smooth manifolds is, by definition, a bijection with continuous forward and inverse maps (i.e., a homeomorphism). Therefore, diffeomorphic manifolds must share all topological invariants. 
+Use this fact to rigorously prove that the following pairs of smooth manifolds (discussed in the lecture) cannot be diffeomorphic:
+\begin{enumerate}
+    \item[(a)] The General Linear group $GL(n, \RR)$ and the Euclidean space $\RR^{n^2}$. \textit{(Hint: Consider the determinant map and connectedness.)}
+    \item[(b)] The Torus $T^2 = S^1 \times S^1$ and the Cylinder $C = S^1 \times \RR$. \textit{(Hint: Recall compactness.)}
+\end{enumerate}
+\end{problem}
+\begin{solution}
+(a) The Euclidean space $\RR^{n^2}$ is a path-connected (and therefore connected) topological space. 
+On the other hand, the General Linear group $GL(n, \RR)$ is the space of all $n \times n$ invertible matrices. The determinant map $\det: GL(n, \RR) \to \RR \setminus \{0\}$ is a polynomial map of the matrix entries, hence it is continuous. It is also surjective. 
+If $GL(n, \RR)$ were connected, its image under a continuous map would also have to be connected. However, the image is $\RR \setminus \{0\}$, which is disconnected (split into positive and negative reals). Thus, $GL(n, \RR)$ must be disconnected. 
+Because one space is connected and the other is disconnected, they cannot be homeomorphic, and therefore cannot be diffeomorphic.
+
+(b) The unit circle $S^1 \subset \RR^2$ is closed and bounded, hence it is a compact space. 
+The Torus $T^2 = S^1 \times S^1$ is the product of two compact spaces. By Tychonoff's theorem , the product of finitely many compact spaces is compact. Thus, $T^2$ is compact.
+The Cylinder is $C = S^1 \times \RR$ is not boounded, so it's non-compact.
+Because $T^2$ is compact and $C$ is non-compact, they cannot be homeomorphic, and therefore cannot be diffeomorphic
+\end{solution}
+
+\vfill
+
+\end{document}
